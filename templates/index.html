@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Expense Tracker</title>
+    
+</head>
+<body>
+<div class="container">
+    <h1>Add new expense</h1>
+    <button data-toggle="modal" data-target="#addmodal">Add new expense</button>
+</div>
+
+<div id="addmodal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Expense</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="./add">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="item" placeholder="Enter the item" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="amount" placeholder="Enter the amount" required>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="category" required>
+                            <option value="" selected disabled hidden>Choose the category</option>
+                            <option value="food" name="category">Food</option>
+                            <option value="clothes" name="category">Clothes</option>
+                            <option value="travel" name="category">Travel</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" class="form-control" name="date">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add expense</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</br>
+
+<div class="container">
+    <h1>Expenses</h1>
+    <table class="table">
+        <thead>
+        <th scope="col">Item</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Date</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+        </thead>
+        {% for expense in expenses %}
+        
+            <tbody>
+            <tr>
+                <td>{{ expense.item }}</td>
+                <td>{{ expense.amount }}</td>
+                <td>{{ expense.category }}</td>
+                <td>{{ expense.date.isoformat }}</td>
+                
+                <td>
+                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                            data-target="#updatemodal{{ expense.id }}">Update
+                    </button>
+                </td>
+
+                <td>
+                    <button  type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#deletemodal{{ expense.id }}">Delete
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+
+            <div id="updatemodal{{ expense.id }}" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Update expense</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="./update/{{ expense.id }}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="item" placeholder="Enter the item"
+                                           value="{{ expense.item }}"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="amount" placeholder="Enter the amount"
+                                           value="{{ expense.amount }}"
+                                           required>
+                                </div>
+                                
+                                <div class="form-group dropdown">    
+                                    
+                                <select id="category" class="form-control custom-select" name="category" required>
+                                        {%if expense.category == "clothes" %}
+                                            <option value="food"name="category">Food</option>
+                                            <option selected value="clothes" name="category">Clothes</option>
+                                            <option value="travel" name="category">Travel</option>
+                                        {%elif expense.category == "food"%}
+                                            <option selected value="food"name="category">Food</option>
+                                            <option value="clothes" name="category">Clothes</option>
+                                            <option value="travel" name="category">Travel</option>
+                                        {%elif expense.category == "travel"%}
+                                            <option value="food"name="category">Food</option>
+                                            <option value="clothes" name="category">Clothes</option>
+                                            <option selected value="travel" name="category">Travel</option>
+                                        {%endif%}    
+                                        
+                                    </select>
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" class="form-control" name="date"
+                                           value="{{ expense.date.isoformat }}">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-warning">Update expense</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="deletemodal{{ expense.id }}" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm delete?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="./delete/{{ expense.id }}">
+                                <div class="form-group">
+                                    <h4>Item - </h4>
+                                    <h4 class="form-control">{{ expense.item }}</h4>
+                                </div>
+                                <div class="form-group">
+                                    <h4>Amount - </h4>
+                                    <h4 class="form-control">{{ expense.amount }}</h4>
+                                </div>
+                                <div class="form-group">
+                                    <h4>Category - </h4>
+                                    <h4 class="form-control">{{ expense.category }}</h4>
+                                </div>
+                                <div class="form-group">
+                                    <h4>Date - </h4>
+                                    <h4 class="form-control">{{ expense.date }}</h4>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Delete expense</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+        {% endfor %}
+
+
+    </table>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+            
+</body>
+</html>
