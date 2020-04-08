@@ -22,4 +22,26 @@ def add(request):
 
     return redirect(home)
 
+def update(request, id):
+    id = int(id)
+    expense_fetched = Expense.objects.get(id = id)
+    if request.method == 'POST':
+        item = request.POST['item']
+        amount = request.POST['amount']
+        category = request.POST['category']
+        date = request.POST['date']
 
+        expense_fetched.item = item
+        expense_fetched.amount = amount
+        expense_fetched.category = category
+        expense_fetched.date = date
+
+        expense_fetched.save()
+
+    return redirect(home)
+
+def delete(request, id):
+    id = int(id)
+    expense_fetched = Expense.objects.get(id = id)
+    expense_fetched.delete()
+    return redirect(home)

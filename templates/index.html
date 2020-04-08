@@ -164,6 +164,7 @@
                         </div>
                         <div class="modal-body">
                             <form method="post" action="./delete/{{ expense.id }}">
+                                {% csrf_token %}
                                 <div class="form-group">
                                     <h4>Item - </h4>
                                     <h4 class="form-control">{{ expense.item }}</h4>
