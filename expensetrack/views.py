@@ -7,7 +7,7 @@ from django.http import HttpResponse
 # home
 def home(request):
     expenses = Expense.objects.all()
-    return render(request, 'index.html', {'expenses': expenses})
+    return render(request, 'index1.html', {'expenses': expenses})
 
 # create
 def add(request):
