@@ -330,9 +330,9 @@
             {% for expense in expenses %}
                 <tbody>
                 <tr>
-                    <td>{{ expense.item }}</td>
+                    <td>{{ expense.item.capitalize }}</td>
                     <td>{{ expense.amount }}</td>
-                    <td>{{ expense.category }}</td>
+                    <td>{{ expense.category.capitalize }}</td>
                     <td>{{ expense.date }}</td>
                     <td>
                         <a href="#updatemodal{{ expense.id }}" class="edit" data-toggle="modal"><i
