@@ -11,12 +11,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <style type="text/css">
         body {
             color: #566787;
             background: #f5f5f5;
             font-family: 'Varela Round', sans-serif;
             font-size: 17px;
+        }
+
+        .dark-mode {
+            background-color: black;
+            color: white;
         }
 
         .table-wrapper {
@@ -276,42 +282,75 @@
         .modal form label {
             font-weight: normal;
         }
-    </style>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            // Activate tooltip
-            $('[data-toggle="tooltip"]').tooltip();
 
-            // Select/Deselect checkboxes
-            var checkbox = $('table tbody input[type="checkbox"]');
-            $("#selectAll").click(function () {
-                if (this.checked) {
-                    checkbox.each(function () {
-                        this.checked = true;
-                    });
-                } else {
-                    checkbox.each(function () {
-                        this.checked = false;
-                    });
-                }
-            });
-            checkbox.click(function () {
-                if (!this.checked) {
-                    $("#selectAll").prop("checked", false);
-                }
-            });
-        });
-    </script>
+        .material-switch > input[type="checkbox"] {
+            display: none;
+        }
+
+        .material-switch > label {
+            cursor: pointer;
+            height: 0px;
+            position: relative;
+            top: 2px;
+            width: 40px;
+        }
+
+        .material-switch > label::before {
+            background: rgb(0, 0, 0);
+            box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            content: '';
+            height: 16px;
+            margin-top: -8px;
+            position: absolute;
+            opacity: 0.3;
+            transition: all 0.4s ease-in-out;
+            width: 40px;
+        }
+
+        .material-switch > label::after {
+            background: rgb(255, 255, 255);
+            border-radius: 16px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+            content: '';
+            height: 24px;
+            left: -4px;
+            margin-top: -8px;
+            position: absolute;
+            top: -4px;
+            transition: all 0.3s ease-in-out;
+            width: 24px;
+        }
+
+        .material-switch > input[type="checkbox"]:checked + label::before {
+            background: inherit;
+            opacity: 0.5;
+        }
+
+        .material-switch > input[type="checkbox"]:checked + label::after {
+            background: inherit;
+            left: 20px;
+        }
+    </style>
+
 </head>
 <body>
 <div class="container">
+    <div class="material-switch" style="float: right">
+        <input id="switch-primary" name="switch-primary" type="checkbox">
+        <label for="switch-primary" class="primary-color"></label>
+        Dark Mode
+    </div>
+Helloo
     <div class="table-wrapper">
         <div class="table-title">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <h2>Manage <b>Expenses</b></h2>
                 </div>
-                <div class="col-sm-6">
+
+
+                <div class="col-sm-offset-3">
                     <a href="#addExpenseModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i>
                         <span>Add New Expense</span></a>
                 </div>
