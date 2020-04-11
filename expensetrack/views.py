@@ -7,6 +7,10 @@ from django.http import HttpResponse
 # home
 def home(request):
     expenses = Expense.objects.all()
+    if request.POST:
+        month = request.POST['month']
+        year = request.POST['year']
+        expenses = Expense.objects.filter(date__year=year, date__month=month)
     return render(request, 'index1.html', {'expenses': expenses})
 
 # create
