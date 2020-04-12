@@ -20,4 +20,4 @@ Go to browser and hit following url -
     localhost:8000
 ## Authors
 
- - Gaurav gunjal ([LinkedIn](https://www.linkedin.com/in/gaurav-gunjal-aa682b107/), [Facebook](www.facebook.com/gaurav.gunjal.16), [Instagram](www.instagram.com/_gaurav_art_))
+ - Gaurav gunjal ([LinkedIn](https://www.linkedin.com/in/gaurav-gunjal-aa682b107/), [Facebook](https://www.facebook.com/gaurav.gunjal.16/), [Instagram](https://www.instagram.com/_gaurav_art_/))
